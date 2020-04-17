@@ -61,13 +61,17 @@ public class Employe {
     public Integer getNbRtt(LocalDate d){
         int i1 = d.isLeapYear() ? 365 : 366;
         int var = 104;
-        switch (LocalDate.of(d.getYear(),1,1).getDayOfWeek()){
+        switch (LocalDate.of(d.getYear(),d.getMonth(),d.getDayOfMonth()).getDayOfWeek()){
             case THURSDAY:
                 if(d.isLeapYear()) var =  var + 1;
                 break;
             case FRIDAY:
-                if(d.isLeapYear()) var =  var + 2;
-                else var =  var + 1;
+                if(d.isLeapYear()) {
+                    var =  var + 2;
+                }
+                else {
+                    var =  var + 1;
+                }
                 break;
             case SATURDAY: var = var + 1;
                 break;
@@ -107,6 +111,7 @@ public class Employe {
             prime = Entreprise.primeAnnuelleBase() * (this.performance + Entreprise.INDICE_PRIME_BASE) + primeAnciennete;
         }
         //Au pro rata du temps partiel.
+
         return Math.round(prime * this.tempsPartiel * 100)/100.0;
     }
     //Augmenter salaire
@@ -199,7 +204,9 @@ public class Employe {
     }
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
         if (!(o instanceof Employe)) return false;
         Employe employe = (Employe) o;
         return Objects.equals(id, employe.id) &&
